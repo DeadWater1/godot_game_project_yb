@@ -3,12 +3,14 @@ extends NinePatchRect
 # 已完成UI的基本功能，拖拽UI可将塔移除，可看预览塔，高亮区
 @onready var tower = preload("res://tower/tower.tscn")
 @export var map: TileMapLayer
+@export var obstruction_map:TileMapLayer
 @export var towers_node:Node2D# 专门放置防御塔的节点
 @export var preview_towers_node:Node2D#专门放置预览塔的节点
 @export var selection_map: TileMapLayer#高亮区的变色节点
 @onready var point_light: PointLight2D = $"../../../../Map/CanBuildArea"
 
 var current_highlighted_tile = null
+var current_obstruction_tile=null
 var preview_tower
 var current_tile_pos: Vector2i = Vector2i(-1, -1)
 var map_light_radius_squared: float = 0.0
@@ -52,12 +54,16 @@ func _on_gui_input(event):
 	if event is InputEventMouseMotion and event.button_mask == 1:
 		var mouse_pos = GlobalCamera.get_global_mouse_position()# 可以直接用这个map.get_global_mouse_position()
 		var new_tile_pos = map.local_to_map(mouse_pos)
+		var new_obstruction_pos = obstruction_map.local_to_map(mouse_pos)
 
 		selection_map.clear()  # 清除之前的高亮
 		var tile_data = map.get_cell_tile_data(new_tile_pos)
-		var can_place = tile_data and tile_data.get_custom_data("towerable") and !has_tower(new_tile_pos) and is_in_light_range(new_tile_pos)
-		var tile_id = 5 if can_place else 6  # 可放置用5，不可用6
-		selection_map.set_cell(new_tile_pos, tile_id, Vector2i(0,0))
+		var obstruction_data = obstruction_map.get_cell_tile_data(new_obstruction_pos)
+		var can_place = tile_data and tile_data.get_custom_data("towerable") and !has_tower(new_tile_pos) and is_in_light_range(new_tile_pos) and (obstruction_data == null or !obstruction_data.get_custom_data("unwalkable"))
+		# var tile_id = 5 if can_place else 6  # 可放置用5，不可用6
+		# selection_map.set_cell(new_tile_pos, tile_id, Vector2i(0,0))
+		var vec=Vector2i(11,28) if can_place else Vector2i(2,25)
+		selection_map.set_cell(new_tile_pos, 0, vec)
 		
 		# 移动时出现预览塔
 		if not preview_tower:
@@ -84,13 +90,15 @@ func _on_gui_input(event):
 		var mouse_pos1 = GlobalCamera.get_global_mouse_position()# 可以直接用这个map.get_global_mouse_position()
 		
 		current_highlighted_tile = map.local_to_map(mouse_pos1)
+		current_obstruction_tile = obstruction_map.local_to_map(mouse_pos1)
 		current_tile_pos = Vector2i(-1, -1)
 		
 		# 放开鼠标后出现放置塔
 		if current_highlighted_tile:
 			
 			var tile_data = map.get_cell_tile_data(current_highlighted_tile)
-			if tile_data and tile_data.get_custom_data("towerable") and !has_tower(current_highlighted_tile) and is_in_light_range(current_highlighted_tile):
+			var obstruction_data = obstruction_map.get_cell_tile_data(current_obstruction_tile)
+			if tile_data and tile_data.get_custom_data("towerable") and !has_tower(current_highlighted_tile) and is_in_light_range(current_highlighted_tile)and (obstruction_data == null or !obstruction_data.get_custom_data("unwalkable")):
 				var tempTower = tower.instantiate()
 				
 				# 当玩家松开鼠标确认放置防御塔时才添加到 "active_towers" 组内

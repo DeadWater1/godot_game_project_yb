@@ -6,7 +6,7 @@ var astar := AStarGrid2D.new()
 
 @export var base_layer:TileMapLayer
 
-
+@export var obstruction_layer:TileMapLayer
 
 func _ready():
 	astar.region=base_layer.get_used_rect()
@@ -20,7 +20,7 @@ func _ready():
 	for x in range(astar.region.position.x,astar.region.end.x):
 		for y in range(astar.region.position.y,astar.region.end.y):
 			var coord=Vector2i(x,y)
-			var tile_data:=base_layer.get_cell_tile_data(coord)
+			var tile_data:=obstruction_layer.get_cell_tile_data(coord)
 			if tile_data and tile_data.get_custom_data("unwalkable"):
 				astar.set_point_solid(coord)
 

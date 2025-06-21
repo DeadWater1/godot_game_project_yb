@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://c2jg5bsm0ppjc"]
+
+[ext_resource type="Texture2D" uid="uid://dogo7qibb4oe2" path="res://tiles/tile_sprites/tile_001-export.png" id="1_b5wxp"]
+[ext_resource type="Texture2D" uid="uid://cgjil7k2tmm88" path="res://tiles/tile_sprites/tile_002-export.png" id="2_tw0x1"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bsumw"]
+texture = ExtResource("1_b5wxp")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fwcvl"]
+texture = ExtResource("2_tw0x1")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_0i4oc"]
+tile_shape = 3
+tile_size = Vector2i(20, 20)
+sources/5 = SubResource("TileSetAtlasSource_bsumw")
+sources/6 = SubResource("TileSetAtlasSource_fwcvl")
+
+[node name="SelectionOverLayer" type="TileMapLayer"]
+modulate = Color(1, 1, 1, 0.694118)
+tile_set = SubResource("TileSet_0i4oc")
