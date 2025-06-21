@@ -28,5 +28,5 @@ func _on_save_button_pressed():
 		var enemy_scene=PackedScene.new()
 		enemy_scene.pack(enemy)
 		data.enemy_array.append(enemy_scene)
-	ResourceSaver.save(data,"res://save/load/scene_data.tres")
+	ResourceSaver.save(data,"user://scene_data.tres")
 	print("save")

@@ -10,7 +10,7 @@ func quit_game():
 
 
 func _on_load_button_pressed():
-	var data=ResourceLoader.load("res://save/load/scene_data.tres") as SceneData
+	var data=ResourceLoader.load("user://scene_data.tres") as SceneData
 	var towers=get_tree().get_nodes_in_group("active_towers")
 	for tower in towers:
 		tower.queue_free()
