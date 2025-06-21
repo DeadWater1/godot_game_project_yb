@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="test"
+config/name="demo"
 run/main_scene="uid://cnvsrn8b7wo3u"
 config/features=PackedStringArray("4.4", "Forward Plus")
 

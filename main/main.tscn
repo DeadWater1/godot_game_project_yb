@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://cnvsrn8b7wo3u"]
+[gd_scene load_steps=30 format=4 uid="uid://cnvsrn8b7wo3u"]
 
 [ext_resource type="Script" uid="uid://hcb3b54hu568" path="res://main/script/main.gd" id="1_3wy1v"]
 [ext_resource type="Script" uid="uid://b8b3phd1npjot" path="res://levels/level/hexTileMap.gd" id="1_c651c"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://yi7w7pfywlpq" path="res://tiles/assets/buttons/pause_hover.png" id="12_73k8k"]
 [ext_resource type="FontFile" uid="uid://bydfh0blmt8lh" path="res://tiles/assets/front/ark-pixel-12px-monospaced-zh_cn.ttf" id="15_5xyti"]
 [ext_resource type="Script" uid="uid://qcvhwi2ffkxt" path="res://UI/script/start_ui.gd" id="15_n3o0a"]
+[ext_resource type="PackedScene" uid="uid://dexe7xp10yqu1" path="res://round_bar/round.tscn" id="16_n3o0a"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q0sk7"]
 texture = ExtResource("6_4hmqs")
@@ -3668,7 +3669,8 @@ tile_set = SubResource("TileSet_bsumw")
 tile_set = SubResource("TileSet_piupu")
 
 [node name="Fog" type="CanvasModulate" parent="Map"]
-color = Color(0.0121452, 0.0705829, 0.0994773, 1)
+visible = false
+color = Color(0.258082, 0.258082, 0.258082, 1)
 
 [node name="CanBuildArea" type="PointLight2D" parent="Map"]
 position = Vector2(232, 117)
@@ -3685,9 +3687,9 @@ shape = SubResource("RectangleShape2D_0i4oc")
 
 [node name="Camera" parent="." instance=ExtResource("6_67ri8")]
 
-[node name="Spawner" type="Node2D" parent="." node_paths=PackedStringArray("grid")]
+[node name="Spawner" type="Node2D" parent="." node_paths=PackedStringArray("progress_bar", "grid")]
 script = ExtResource("8_n3o0a")
-spawn_interval = 5.0
+progress_bar = NodePath("../Round_cnt")
 grid = NodePath("../Map")
 
 [node name="PauseUI" type="CanvasLayer" parent="." node_paths=PackedStringArray("pause_panel")]
@@ -3909,6 +3911,8 @@ text = "Quit"
 [node name="Towers" type="Node2D" parent="."]
 
 [node name="PreviewTowers" type="Node2D" parent="."]
+
+[node name="Round_cnt" parent="." instance=ExtResource("16_n3o0a")]
 
 [connection signal="input_event" from="Map/Empty_Area" to="Map" method="_on_empty_area_input_event"]
 [connection signal="pressed" from="PauseUI/Pause/PauseButton" to="PauseUI" method="pause"]
