@@ -3633,9 +3633,6 @@ texture = ExtResource("6_4hmqs")
 [sub_resource type="TileSet" id="TileSet_piupu"]
 sources/0 = SubResource("TileSetAtlasSource_4hmqs")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0i4oc"]
-size = Vector2(428, 240)
-
 [sub_resource type="Gradient" id="Gradient_0i4oc"]
 offsets = PackedFloat32Array(0.792208, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -3647,6 +3644,9 @@ height = 160
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0i4oc"]
+size = Vector2(428, 240)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_3wy1v")
@@ -3670,6 +3670,11 @@ tile_set = SubResource("TileSet_piupu")
 [node name="Fog" type="CanvasModulate" parent="Map"]
 color = Color(0.0121452, 0.0705829, 0.0994773, 1)
 
+[node name="CanBuildArea" type="PointLight2D" parent="Map"]
+position = Vector2(232, 117)
+texture = SubResource("GradientTexture2D_bsumw")
+height = 5.0
+
 [node name="Empty_Area" type="Area2D" parent="Map"]
 z_index = -2
 position = Vector2(11, 10)
@@ -3677,11 +3682,6 @@ position = Vector2(11, 10)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Empty_Area"]
 position = Vector2(203, 110)
 shape = SubResource("RectangleShape2D_0i4oc")
-
-[node name="CanBuildArea" type="PointLight2D" parent="Map"]
-position = Vector2(232, 117)
-texture = SubResource("GradientTexture2D_bsumw")
-height = 5.0
 
 [node name="Camera" parent="." instance=ExtResource("6_67ri8")]
 
